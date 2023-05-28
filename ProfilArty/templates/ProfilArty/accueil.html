@@ -1,0 +1,322 @@
+{% extends "ProfilArty/base.html" %}
+
+    {% block content %} 
+ {% load static%}
+
+    <!-- Page Header -->
+    <header class="header">
+        <div class="overlay">
+            <h6 class="subtitle">Petite équipe avec de grandes idées</h6>
+            <h1 class="title">ArtyProd</h1>
+            <div class="buttons text-center">
+                <a href="#service" class="btn btn-primary rounded w-lg btn-lg my-1">Nos services</a>
+                <a href="#contact" class="btn btn-outline-light rounded w-lg btn-lg my-1">Contactez-moi !</a>
+            </div>              
+        </div>      
+    </header>
+    <!-- End Of Page Header -->
+
+    <!-- Box -->
+    <div class="box text-center">
+        <div class="box-item">
+            
+            <h6 class="box-title">design graphique</h6>
+            <p>Le design graphique est l'une des spécialités de notre agence ArtyProd. Nous aidons nos clients à concevoir des projets visuels créatifs et percutants pour leur communication, leur marketing et leur image de marque . </p>
+              </div>
+        <div class="box-item">
+            
+            <h6 class="box-title">conception 3D</h6>
+            <p>La production audiovisuelle est une autre expertise de notre agence ArtyProd. Nous aidons nos clients à créer des contenus vidéo et audiovisuels de qualité professionnelle pour leur communication, leur marketing, leur publicité ou leur événementiel.</p>
+        </div>
+        <div class="box-item">
+           
+            <h6 class="box-title">Aproduction audiovisuelle</h6>
+            <p>La conception 3D est une expertise clé de notre agence ArtyProd. Nous aidons nos clients à visualiser et à donner vie à leurs projets en créant des modèles et des rendus 3D de haute qualité pour leurs produits, bâtiments, scènes, personnages ou environnements. </p>
+        </div>
+    </div>
+    <!-- End of Box -->
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5 col-lg-4">
+                    <img src="{% static 'imgs/about.jpg' %}"  alt="page" class="w-100 img-thumbnail mb-3">
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <h6 class="section-subtitle mb-0">Nous créons</h6>
+                    <h6 class="section-title mb-3">ArtyProd</h6>
+                    <p>
+                        ArtyProd est une agence créative spécialisée dans le design graphique, la production audiovisuelle et la conception 3D. Forts de notre expérience et de notre expertise, nous offrons des solutions innovantes et personnalisées pour répondre aux besoins de nos clients, qu'ils soient des particuliers ou des entreprises. Nous sommes passionnés par notre travail et nous nous efforçons toujours de repousser les limites de la créativité pour offrir des résultats exceptionnels. Notre équipe est composée de professionnels talentueux et engagés, qui travaillent en étroite collaboration avec nos clients pour garantir leur satisfaction à chaque étape du processus. Si vous cherchez une agence créative pour vous accompagner dans vos projets, n'hésitez pas à nous contacter pour discuter de vos besoins.
+                    </p>
+                     </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of About Section -->
+
+    
+
+    <!-- Service Section -->
+    <section id="service">
+        <div class="container">
+            <h6 class="section-subtitle text-center">Fait arriver</h6>
+            <h5 class="section-title text-center mb-6">Notre service</h5> 
+            <div class="row">
+
+                {% for service in services %}
+                <div class="col-sm-4 col-md-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                <h2 class="mb-4">
+                    <div style="text-align: center; text-align: center;">
+                        <img src="{{ service.image.url }}" alt="{{ service.title }}" width="64px" height="64px">
+                        <p style="font-size:10px ;">{{service.category}}</p>
+                    </div>
+                </h2>
+                            <h6 class="card-title" style="text-align: center;">{{ service.title }}</h6>
+                            <p style="text-align: center;"> {{ service.description }}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+               
+                
+                {% endfor %}
+            </div>  
+        </div>
+    </section>
+    <!-- End of Service Section -->
+
+    <!-- Portfolio section -->
+    <section id="portfolio">
+        <div class="container text-center">
+            <h6 class="section-subtitle">Nos superbes réalisations</h6>
+            <h6 class="section-title mb-5">Notre portfolio</h6>
+            <div class="row">
+                {% for portfolio in portfolios %}		
+                <div class="col-sm-4">
+                    <div class="img-wrapper">
+                        <img src="{{ portfolio.image.url }}" alt="{{ portfolio.title }}" width="200px" height="300px">            
+                        <div class="overlay">
+                            <div class="overlay-infos">
+                                <h5>{{ portfolio.title }}</h5>
+                                <p>Client name: {{ portfolio.client_name }}</p>
+                                <p>Client company: {{ portfolio.client_company }}</p>
+                                <button class="portfolio-btn btn-success" type="submit" data-title="{{ portfolio.title }}" data-details="{{ portfolio.description }}">Plus d'informations</button>
+                            </div> 
+                        </div>
+                    </div>               
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap Modal -->
+    <div id="portfolioModal" class="modal fade modal-centered" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <br><br><br><br><br><br>
+            <div class="modal-content">
+                <div class="modal-header">
+                
+                    <h4 class="modal-title" id="portfolioModalTitle"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="portfolioModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.portfolio-btn').click(function() {
+                var title = $(this).data('title');
+                var details = $(this).data('details');
+                $('#portfolioModalTitle').text(title);
+                $('#portfolioModalBody').text(details);
+                $('#portfolioModal').modal('show');
+            });
+        });
+    </script>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <h6 class="section-subtitle text-center">Rencontrer</h6>
+            <h6 class="section-title mb-5 text-center">Notre équipe</h6>
+            <div class="row">
+                {% for equipe in equipes %}	
+                    <div class="col-sm-6 col-md-4">
+                        <div class="card text-center mb-4">
+                            <img class="card-img-top inset" src="{{ equipe.photo.url }}" alt="{{ equipe.name }}">
+                            <div class="card-body">
+                                <h6 class="small text-primary font-weight-bold">Membres de l'équipe :</h6>
+                                {% for personnel in equipe.Personnel.all %}
+                                    <a href="{{ personnel.linkedin_url }}"><p>{{ personnel.nom }}  {{ personnel.prenom }}</p></a>
+                                {% endfor %}
+                                <h5 class="card-title">{{ equipe.name }}</h5>
+                                <p>{{ equipe.bio }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- End of Team Sectoin -->
+
+    <!-- Fatcs Section -->
+    <section class="has-bg-img bg-img-2">
+        <div class="container text-center">
+            <h6 class="section-subtitle">Nous sommes géniaux</h6>
+            <h6 class="section-title mb-6">Quelques faits amusants</h6>
+                <div class="widget-2">
+                    <div class="widget-item">
+                        <i class="ti-cup"></i>
+                        <h6 class="title">100+</h6>
+                        <div class="subtitle">Récompenses remportées</div>
+                    </div>
+                    <div class="widget-item">
+                        <i class="ti-face-smile"></i>
+                        <h6 class="title">100+</h6>
+                        <div class="subtitle">Clients heureux</div>
+                    </div>
+                    <div class="widget-item">
+                        <i class="ti-blackboard"></i>
+                        <h6 class="title">845+</h6>
+                        <div class="subtitle">Projet terminé</div>
+                    </div>
+                    <div class="widget-item">
+                        <i class="ti-comments-smiley"></i>
+                        <h6 class="title">15K+</h6>
+                        <div class="subtitle">commentaires</div>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section id="testimonial">
+        <div class="container">
+            <h6 class="section-subtitle text-center">Témoignage</h6>
+            <h6 class="section-title text-center mb-6">Ce que disent nos clients</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="testimonial-wrapper">
+                        <div class="img-holder">
+                            <img src="{% static 'imgs/avatar-5.jpg' %} " alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, Creative studio Landing page">                     
+                        </div>
+                        <div class="body">
+                            <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque doloribus autem aperiam earum nostrum omnis blanditiis corporis perspiciatis adipisci nihil.</p>
+                            <h6 class="title">Richard Reb</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="testimonial-wrapper">
+                        <div class="img-holder">
+                            <img src="{% static 'imgs/avatar-6.jpg' %} " alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, Creative studio Landing page">                     
+                        </div>
+                        <div class="body">
+                            <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque doloribus autem aperiam earum nostrum omnis blanditiis corporis perspiciatis adipisci nihil.</p>
+                            <h6 class="title">John Doe</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Testimonial Section -->
+
+    <!-- Video Section -->
+    <section class="has-bg-img py-lg">
+        <div class="container text-center">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary play-control" data-toggle="modal" data-target="#exampleModalCenter">
+              <i class="ti-control-play" ></i>
+            </button>
+            <h6 class="section-title mt-4">See Our Intro Video</h6>
+
+        </div>
+    </section>
+    <!-- End of Video Section -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <iframe width="100%" height="475" src="https://www.youtube.com/embed/TP4THzsAa3M" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal -->
+
+    
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="contact-card">
+                <div class="infos">
+                    <h6 class="section-subtitle">Get Here</h6>
+                    <h6 class="section-title mb-4">Contact Us</h6>
+
+                    <div class="item">
+                        <i class="ti-location-pin"></i>
+                        <div class="">
+                            <h5>Location</h5>
+                            <p> 12345 Fake ST NoWhere AB Country</p>
+                        </div>                          
+                    </div>
+                    <div class="item">
+                        <i class="ti-mobile"></i>
+                        <div>
+                            <h5>Phone Number</h5>
+                            <p>(123) 456-7890</p>
+                        </div>                          
+                    </div>
+                    <div class="item">
+                        <i class="ti-email"></i>
+                        <div class="mb-0">
+                            <h5>Email Address</h5>
+                            <p>info@website.com</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="ti-world"></i>
+                        <div class="mb-0">
+                            <h5>example.com</h5>
+                            <p>info@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <h6 class="section-subtitle">Available 24/7</h6>
+                    <h6 class="section-title mb-4">Get In Touch</h6>
+                    <form>
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="contact-message" id="" cols="30" rows="7" class="form-control form-control-lg" placeholder="Message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+
+    {% endblock %}

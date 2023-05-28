@@ -1,0 +1,121 @@
+{% extends "ProfilArty/base.html" %}
+{% block content %} 
+    <style>
+  .form{ 
+  margin-left: 500px;
+  }
+</style>
+    <br><br><br><br><br>
+    <div class="form">
+   
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/7033146-icone-de-profil-login-head-icon-vectoriel.jpg" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{user}}</h5>
+              <p class="text-muted mb-1">Full Stack Developer</p>
+           
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+      <form method="post" class="form">   
+         <h3>demande de projet </h3>
+  
+        {% csrf_token %}
+        <div class="col-md-6">
+       
+          <div class="form-group">
+            <label for="{{ form.title.id_for_label }}" class="control-label">{{ form.title.label }}</label>
+            <input id="{{ form.title.id_for_label }}" class="form-control form-control-lg" type="text" placeholder="text"   name="{{ form.title.name }}">
+          </div>
+          
+         
+          <div class="form-group">
+            <label for="{{ form.description.id_for_label }}" class="control-label">{{ form.description.label_tag }}</label>
+            <textarea class="form-control" id="{{ form.description.id_for_label }}" rows="3" placeholder="{{ form.description.label }}" name="{{ form.description.name }}"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="{{ form.start_date.id_for_label }}" class="control-label">{{ form.start_date.label_tag }}</label>
+            <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="{{ form.start_date.label }}"  name="{{ form.start_date.name }}">
+          </div>
+          
+          <div class="form-group">
+            <label for="{{ form.budget.id_for_label }}" class="control-label">{{ form.budget.label_tag }}</label>
+            <input class="form-control" type="number" placeholder="{{ form.budget.label }}"  name="{{ form.budget.name }}">
+          </div>
+          
+        </div>
+      
+        <button type="submit" class="btn btn-primary">envoyer</button>
+      </form>
+    
+    
+
+    <section id="">
+      <div class="container">
+      
+          <div class="row">
+            {% for project in projects %}
+    
+              <div class="col-sm-6 col-md-4">
+                  <div class="card text-center mb-4">
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" width="200" height"200">
+                    
+                      <div class="card-body">
+                          <h6 class="small text-primary font-weight-bold">{{ project.estimated_end_date }}</h6>
+                          <h5 class="card-title">{{ project.title }}</h5>
+                          <p>{{ project.description }}</p>
+                          <div class="socials">
+                              <a href="javascript:void(0)"><i></i> {{ project.Status }}</a>
+        
+                          </div>
+                      </div>
+                  </div>
+              </div>
+             {% endfor%}
+          </div>
+      </div>
+  </section>
+      
+  
+      <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date de début</th>
+                <th>Date de fin estimée</th>
+                <th>Étapes achevées</th>
+                <th>Tâches restantes</th>
+                <th>Problèmes</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for project in projectsInPro %}
+           
+            <tr>
+                <td>{{ project.title }}</td>
+                <td>{{ project.start_date }}</td>
+                <td>{{ project.estimated_end_date }}</td>
+                <td>{{ project.completed_steps }}</td>
+                <td>{{ project.remaining_tasks }}</td>
+                <td>
+                    {% if project.issues %}
+                        {{ project.issues }}
+                    {% else %}
+                        Pas de problèmes signalés.
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

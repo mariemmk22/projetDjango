@@ -1,0 +1,39 @@
+{% extends "../ProfilArty/base.html" %}
+
+{% block content %}
+<style>
+  .container{
+    padding-left: 50px;
+    margin-bottom: 10px;
+  }
+</style>
+<br><br><br><br><br><br><br>
+<div class="container">
+  
+  <form method="post" class="col-md-6">
+    {% csrf_token %}
+    <h2>S'inscrire</h2>
+    <table class="table">
+      {% for field in form %}
+      <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+      </tr>
+      {% for error in field.errors %}
+      <tr>
+        <td></td>
+        <td class="alert alert-danger">{{ error }}</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </table>
+    <button type="submit" class="btn btn-primary">S'inscrire</button>
+  </form>
+  <div>
+    <small>
+      Déjà inscrit.e? <a href="{% url 'login' %}" class="btn btn-link">Se connecter</a>
+    </small>
+  </div>
+  
+</div>
+{% endblock %}

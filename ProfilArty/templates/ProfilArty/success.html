@@ -1,0 +1,16 @@
+{% extends "ProfilArty/base.html" %}
+
+    {% block content %} 
+    <style>
+        .success{
+            margin-top: 200px;
+            margin-bottom: 200px;
+            text-align: center;
+        }
+    </style>
+    <div class="success">
+<h1>Votre demande de projet a été soumise avec succès !</h1>
+<p>Nous vous contacterons bientôt.</p>
+<a href="{% url 'profil' %}"> RETOUR</a>
+</div>
+{% endblock %}
